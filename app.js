@@ -40,15 +40,16 @@ client.on("guildScheduledEventUpdate", async (before, after) => {
   console.log(after);
 
   //trigger on completing or cancelling, if the description includes "recur"
-  if (before.description.toLowerCase().includes("recur")
-    && before.status !== after.status
-    && after.status >= 3
+  if (
+    before.description.toLowerCase().includes("recur")
+      && before.status !== after.status
+      && after.status >= 3
   ) {
     const guild = await client.guilds.fetch(before.guildId);
     const channel = await client.channels.fetch(before.channelId);
 
     // Grab the image from the previous event (before)
-    const imageLink = null;
+    let imageLink = null;
     if (before.image !== null) {
       const cdn = new CDN();
       imageLink = cdn.guildScheduledEventCover(before.id, before.image, {
